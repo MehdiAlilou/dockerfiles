@@ -195,7 +195,7 @@ if __name__=='__main__':
     import sys
     import torchvision
     path=sys.argv[1]
-    batch_size=4
+    batch_size=1
     imgs = list(sorted(os.listdir(os.path.join(path,'TEST'))))
     ds_test=BrainTumorDataset(path,'TEST',get_transform(train=False))
     test_dataloader = DataLoader(ds_test, batch_size=batch_size)
@@ -219,7 +219,7 @@ if __name__=='__main__':
                 targets2[j][j2] = v2[j].to(cpu_device)
         outputs = [{k: v.to('cpu') for k, v in t.items()} for t in outputs]
         for i in range(len(outputs)):
-            plt.imsave(path+'/'+'SG_'+imgs[targets2[0]['image_id'].item()]+'.png',np.squeeze(np.moveaxis(outputs[i]['masks'][0].detach().numpy(),0,-1))>0.5,format='png',cmap='gray')
-        print('image '+imgs[targets2[0]['image_id'].item()]+' Converted')
+            plt.imsave(path+'/'+'SG_'+imgs[targets2[i]['image_id'].item()],np.squeeze(np.moveaxis(outputs[i]['masks'][0].detach().numpy(),0,-1))>0.5,format='png',cmap='gray')
+        print('image '+imgs[targets2[i]['image_id'].item()]+' Converted')
 	
 	
